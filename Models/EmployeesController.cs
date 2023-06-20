@@ -17,11 +17,25 @@ namespace DapperCrudWebAPI.Models
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Employee>>> GetAllEmployee()
+        public async Task<ActionResult<List<Employee>>> GetAllEmployees()
         {
             using var connection = new SqlConnection(_config.GetConnectionString("DBConnection"));
-            var employees = await connection.QueryAsync<Employee>("SELECT * FROM Employees");
+            IEnumerable<Employee> employees = await SelectAllEmployees(connection);
             return Ok(employees);
+        }
+
+        private static async Task<IEnumerable<Employee>> SelectAllEmployees(SqlConnection connection)
+        {
+            return await connection.QueryAsync<Employee>("SELECT * FROM Employees");
+        }
+
+        [HttpGet("{employeeId}")]
+        public async Task<ActionResult<List<Employee>>> GetEmployee(int employeeId)
+        {
+            using var connection = new SqlConnection(_config.GetConnectionString("DBConnection"));
+            var employee = await connection.QueryFirstAsync<Employee>("SELECT * FROM Employees WHERE Id = @Id",
+                new {Id = employeeId});
+            return Ok(employee);
         }
     }
 }
