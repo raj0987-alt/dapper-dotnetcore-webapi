@@ -53,7 +53,16 @@ namespace DapperCrudWebAPI.Controllers
 
             return Ok(await SelectAllEmployees());
         }
-        
+
+        [HttpPut]
+        public async Task<ActionResult<Employee>> UpdateEmployee(Employee employee)
+        {
+            await connection.ExecuteAsync("UPDATE Employees SET Name = @Name , FirstName = @FirstName, LastName = @LastName, Email = @Email WHERE Id = @Id",
+                employee);
+
+            return Ok(await SelectAllEmployees());
+        }
+
 
         public void Dispose()
         {
