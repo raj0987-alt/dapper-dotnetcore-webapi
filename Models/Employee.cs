@@ -1,4 +1,4 @@
-﻿namespace ASP.NETCore6WebAPICRUDWithEntityFramework_CodeFirstApproach_.Models
+﻿namespace DapperCrudWebAPI.Models
 {
     public class Employee
     {
