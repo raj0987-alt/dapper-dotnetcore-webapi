@@ -63,6 +63,15 @@ namespace DapperCrudWebAPI.Controllers
             return Ok(await SelectAllEmployees());
         }
 
+        [HttpDelete("{employeeId}")]
+        public async Task<ActionResult<Employee>> DeleteEmployee(int employeeId)
+        {
+            await connection.ExecuteAsync("DELETE FROM Employees WHERE Id = @Id",
+                new { Id = employeeId });
+
+            return Ok(await SelectAllEmployees());
+        }
+
 
         public void Dispose()
         {
